@@ -16,6 +16,8 @@ class PhotoMapViewController: UIViewController, UIImagePickerControllerDelegate,
     
     var chosenImage : UIImage!
     
+    var images : [String:UIImage] = [:]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -31,6 +33,7 @@ class PhotoMapViewController: UIViewController, UIImagePickerControllerDelegate,
         var vc = UIImagePickerController()
         vc.delegate = self
         vc.allowsEditing = true
+        // use camera for real device
 //        vc.sourceType = UIImagePickerControllerSourceType.Camera
         vc.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
         self.presentViewController(vc, animated: true, completion: nil)
@@ -56,23 +59,32 @@ class PhotoMapViewController: UIViewController, UIImagePickerControllerDelegate,
     // MARK: - Navigation
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        let destinationController = segue.destinationViewController as! LocationsViewController
-        destinationController.image = self.chosenImage
-        destinationController.delegate = self
+        if segue.identifier == "showDetail" {
+            let destinationController = segue.destinationViewController as! PhotoDetailViewController
+            destinationController.image = self.chosenImage
+        } else {
+            let destinationController = segue.destinationViewController as! LocationsViewController
+            destinationController.delegate = self
+        }
     }
     
-    func onSelectLocation(latitude: Double, longtitude: Double) {
+    func onSelectLocation(latitude: Double, longtitude: Double, locationName: String) {
         let annotation = MKPointAnnotation()
         let locationCoordinate = CLLocationCoordinate2DMake(latitude, longtitude)
         annotation.coordinate = locationCoordinate
-        annotation.title = "Picture!"
+        annotation.title = locationName
         mapView.addAnnotation(annotation)
         mapView.setCenterCoordinate(locationCoordinate, animated: true)
-        
+        images[locationName] = chosenImage
+    }
+    
+    func mapView(mapView: MKMapView!, annotationView view: MKAnnotationView!, calloutAccessoryControlTapped control: UIControl!) {
+        let name = view.annotation.title!
+        self.chosenImage = images[name]
+        performSegueWithIdentifier("showDetail", sender: self)
     }
     
     func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
-        println(mapView)
         let reuseID = "myAnnotationView"
         
         var annotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseID)
@@ -80,10 +92,13 @@ class PhotoMapViewController: UIViewController, UIImagePickerControllerDelegate,
             annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseID)
             annotationView.canShowCallout = true
             annotationView.leftCalloutAccessoryView = UIImageView(frame: CGRect(x:0, y:0, width: 50, height:50))
+            let detailButton = UIButton.buttonWithType(UIButtonType.DetailDisclosure) as! UIButton
+            annotationView.rightCalloutAccessoryView = detailButton
         }
         
         let imageView = annotationView.leftCalloutAccessoryView as! UIImageView
-        imageView.image = chosenImage
+        imageView.image = images[annotation.title!]
+        
         
         return annotationView
     }

@@ -9,7 +9,7 @@
 import UIKit
 
 protocol LocationsViewDelegate {
-     func onSelectLocation(latitude: Double, longtitude: Double)
+     func onSelectLocation(latitude: Double, longtitude: Double, locationName: String)
 }
 class LocationsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
 
@@ -53,7 +53,8 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
         
         var lat = venue.valueForKeyPath("location.lat") as! Double
         var lng = venue.valueForKeyPath("location.lng")as! Double
-        delegate?.onSelectLocation(lat, longtitude: lng)
+        var name = venue.valueForKey("name") as! String
+        delegate?.onSelectLocation(lat, longtitude: lng, locationName: name)
         dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -79,26 +80,4 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
             }
         }
     }
-
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-        var cell = sender as! UITableViewCell
-        var indexPath = tableView.indexPathForCell(cell)!
-        
-        // This is the selected venue
-        var venue = results[indexPath.row] as! NSDictionary
-        
-        var lat = venue.valueForKeyPath("location.lat") as! NSNumber
-        var lng = venue.valueForKeyPath("location.lng")as! NSNumber
-        
-        var latString = "\(lat)"
-        var lngString = "\(lng)"
-        
-        println(latString + " " + lngString)
-    }
-
 }

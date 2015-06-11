@@ -17,6 +17,7 @@
 		58EB75351B2926D700C30C9D /* PhotoMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58EB75341B2926D700C30C9D /* PhotoMapViewController.swift */; };
 		58EB75371B29270F00C30C9D /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58EB75361B29270F00C30C9D /* MapKit.framework */; };
 		B2CD157BA08A8D660CF7C256 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 730E2E8CC4461B1A4DAF2DD6 /* libPods.a */; };
+		FE45EEB21B29371800F39BF8 /* PhotoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE45EEB11B29371800F39BF8 /* PhotoDetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		58EB75361B29270F00C30C9D /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		730E2E8CC4461B1A4DAF2DD6 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F5BE47FFEDE0C18F03BCCC32 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		FE45EEB11B29371800F39BF8 /* PhotoDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoDetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				228D476F19F5DAFF00DE9903 /* LocationsViewController.swift */,
+				FE45EEB11B29371800F39BF8 /* PhotoDetailViewController.swift */,
 				58EB75341B2926D700C30C9D /* PhotoMapViewController.swift */,
 			);
 			name = "View Controllers";
@@ -302,6 +305,7 @@
 				22BB9BD519F5DD21000048C2 /* LocationCell.swift in Sources */,
 				228D474F19F5DA9F00DE9903 /* AppDelegate.swift in Sources */,
 				58EB75351B2926D700C30C9D /* PhotoMapViewController.swift in Sources */,
+				FE45EEB21B29371800F39BF8 /* PhotoDetailViewController.swift in Sources */,
 				228D477019F5DAFF00DE9903 /* LocationsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

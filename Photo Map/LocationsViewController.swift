@@ -8,10 +8,15 @@
 
 import UIKit
 
+protocol LocationsViewDelegate {
+     func onSelectLocation(latitude: Double, longtitude: Double)
+}
 class LocationsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
+    
+    var delegate : LocationsViewDelegate?
     
     var image : UIImage!
     
@@ -40,6 +45,16 @@ class LocationsViewController: UIViewController, UITableViewDelegate, UITableVie
         cell.location = results[indexPath.row] as! NSDictionary
         
         return cell
+    }
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        // This is the selected venue
+        var venue = results[indexPath.row] as! NSDictionary
+        
+        var lat = venue.valueForKeyPath("location.lat") as! Double
+        var lng = venue.valueForKeyPath("location.lng")as! Double
+        delegate?.onSelectLocation(lat, longtitude: lng)
+        dismissViewControllerAnimated(true, completion: nil)
     }
     
     func searchBar(searchBar: UISearchBar, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {

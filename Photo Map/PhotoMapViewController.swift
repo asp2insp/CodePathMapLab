@@ -9,10 +9,13 @@
 import UIKit
 import MapKit
 
-class PhotoMapViewController: UIViewController {
+class PhotoMapViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var cameraButton: UIButton!
+    
+    var chosenImage : UIImage!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -22,6 +25,26 @@ class PhotoMapViewController: UIViewController {
         
         // Do any additional setup after loading the view.
     }
+    
+    
+    @IBAction func didTapCameraButton(sender: AnyObject) {
+        var vc = UIImagePickerController()
+        vc.delegate = self
+        vc.allowsEditing = true
+//        vc.sourceType = UIImagePickerControllerSourceType.Camera
+        vc.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+        self.presentViewController(vc, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+            var originalImage = info[UIImagePickerControllerOriginalImage] as! UIImage
+            var editedImage = info[UIImagePickerControllerEditedImage] as! UIImage
+            
+            self.chosenImage = editedImage
+            picker.dismissViewControllerAnimated(true, completion: nil)
+            performSegueWithIdentifier("tagWithLocation", sender: self)
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -29,14 +52,11 @@ class PhotoMapViewController: UIViewController {
     }
     
 
-    /*
+
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        let destinationController = segue.destinationViewController as! LocationsViewController
+        destinationController.image = self.chosenImage
     }
-    */
-
 }
